@@ -2,6 +2,8 @@ package com.springboot.makingRestAPI.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/get-api")
 public class GetController {
@@ -39,5 +41,19 @@ public class GetController {
             @RequestParam String email,
             @RequestParam String organization){
         return "name : " + name + "\nemail : " + email + "\norganization : " + organization;
+    }
+
+    //값에 상관없이 요청을 받을 수 있음
+    //예를 들어 회원 가입API에서 필수항목이 아닌 선택항목에 대한 값은 있을수도 있고 없을 수도 있으니 다음과 같이 받으면 효율적으로 받을 수 있음.
+    //http://localhost:8080/api/v1/get-api/request2?key1=value&key2=value2
+    @GetMapping(value = "/request2")
+    public String getRequestParam2(@RequestParam Map<String, String> param){
+        StringBuilder sb = new StringBuilder();
+
+        param.entrySet().forEach(map->{
+            sb.append(map.getKey() + " : " + map.getValue() + "\n");
+        });
+
+        return sb.toString();
     }
 }
